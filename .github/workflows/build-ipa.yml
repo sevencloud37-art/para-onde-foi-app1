@@ -1,0 +1,24 @@
+name: Gerar IPA
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - run: brew install xcodegen
+      - run: xcodegen generate
+      - run: |
+          xcodebuild -project ParaOndeFoi.xcodeproj -scheme ParaOndeFoi \
+            -configuration Release -sdk iphoneos -destination 'generic/platform=iOS' \
+            -derivedDataPath build CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" build
+      - run: |
+          mkdir -p Payload
+          cp -R build/Build/Products/Release-iphoneos/ParaOndeFoi.app Payload/
+          zip -qry ParaOndeFoi.ipa Payload
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ParaOndeFoi-ipa
+          path: ParaOndeFoi.ipa
