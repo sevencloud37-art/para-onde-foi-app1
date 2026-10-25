@@ -595,7 +595,7 @@ var inner=ico(c0)+'<span class="grow"><span class="t1">'+esc(x.desc||cn(disp(x)[
 return x.auto?'<button class="cell" data-gobills="1">'+inner+CHEV+'</button>':'<button class="cell" data-ed="'+x.id+'">'+inner+CHEV+'</button>';}
 var sq="";
 function matchTx(x,w){if(norm(x.desc).indexOf(w)>-1||norm(x.note).indexOf(w)>-1||norm(x.other).indexOf(w)>-1||x.date.indexOf(w)===0)return true;
-if(catsOf(x).some(function(c){return norm(cn(c)).indexOf(w)>-1||norm(c).indexOf(w)>-1;}))return true;
+if(disp(x).some(function(c){return norm(cn(c)).indexOf(w)>-1;}))return true;
 if(norm(t(x.type==="exp"?"expense":x.type==="sav"?"savE":"income")).indexOf(w)===0)return true;
 var qn=w.replace(/[$\s]|us/g,"");if(/^\d+([.,]\d*)?$/.test(qn)){qn=qn.indexOf(",")>-1&&qn.indexOf(".")<0?qn.replace(",","."):qn.replace(/,/g,"");var v=x.val.toFixed(2);if(v.indexOf(qn)===0||String(x.val).indexOf(qn)===0)return true;}
 return false;}
